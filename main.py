@@ -70,6 +70,29 @@ def handle_konversi_basis():
         messagebox.showerror("Error", f"Inputan anda yaitu {nilai_awal} atau {nilai_hasil} bukan angka")
         return
 
+def convert():
+    input_str = input_box.get()
+    option = option_var.get()
+    if option == 'binary':
+        binary = ''.join(format(ord(c), '08b') for c in input_str)
+        output_box.delete(0, tk.END)
+        output_box.insert(0, binary)
+    elif option == 'hexadecimal':
+        hexadecimal = ''.join(hex(ord(c))[2:] for c in input_str)
+        output_box.delete(0, tk.END)
+        output_box.insert(0, hexadecimal)
+    elif option == 'decimal':
+        decimal = ''.join(str(ord(c)) for c in input_str)
+        output_box.delete(0, tk.END)
+        output_box.insert(0, decimal)
+    elif option == 'octal':
+        octal = ''.join(oct(ord(c))[2:] for c in input_str)
+        output_box.delete(0, tk.END)
+        output_box.insert(0, octal)
+    else:
+        output_box.delete(0, tk.END)
+        output_box.insert(0, "Invalid option selected.")
+
 
 #mengconfigure GUI
 window = tk.Tk()
@@ -78,13 +101,13 @@ window.geometry("800x1000")
 window.resizable(True, True)
 window.title("CONVERTIN")
 
-Judul = tk.Label(window, text="Selamat datang di ConvertiN", font=("Poppins", 30), bg="#fff", fg="black")
+Judul = tk.Label(window, text="Selamat datang di ConvertiN", font=("Poppins", 20), bg="#fff", fg="black")
 Judul.pack()
 
 #convert string ke ascii
-label_angka = tk.Label(window, text="Convert String ke ascii", font=("Poppins", 20), bg="#263D42", fg="white")
-label_angka.pack(pady=5)
-input_text = tk.Text(window, height=3, width=50)
+label_angka = tk.Label(window, text="Convert String ke ascii", font=("Poppins", 15), bg="#263D42", fg="white")
+label_angka.pack()
+input_text = tk.Text(window, height=2, width=50)
 input_text.pack()
 
 conversion_var = tk.StringVar(value="hex")
@@ -94,36 +117,57 @@ asc_radiobutton.pack(pady=10)
 convert_button = tk.Button(window, text="Convert", command=konversi_string, bg="white", fg="black", width=15)
 convert_button.pack()
 
-output_text = tk.Text(window, height=3, width=50)
-output_text.pack(pady=10)
+output_text = tk.Text(window, height=2, width=50)
+output_text.pack(pady=2)
 
 
 #convert bilangan
-label_angka= tk.Label(window, text="Convert bilangan", font=("Poppins", 20), bg="#263D42", fg="white")
-label_angka.pack(pady=5)
+label_angka= tk.Label(window, text="Convert bilangan", font=("Poppins"), bg="#263D42", fg="white")
+label_angka.pack(pady=1)
 
 input_angka = tk.Entry(window, font=("Poppins", 15), width=30)
-input_angka.pack(pady=5)
+input_angka.pack(pady=1)
 
 label_pilihan = tk.Label(window, text="2: Binary | 8: Octal | 10: Decimal | 16: Hexadecimal", font=("Poppins", 10), bg="#263D42", fg="white")
 label_pilihan.pack()
 
 nilai_awal_input = tk.StringVar(value="Pilih Bilangan Awal")
 nilai_awal_dropdown = tk.OptionMenu(window, nilai_awal_input, "2", "8", "10", "16")
-nilai_awal_dropdown.pack(padx=10)
+nilai_awal_dropdown.pack(padx=5)
 
-nilai_hasil_label = tk.Label(window, text="Pilih Akan Diconvert Ke", font=("Poppins", 14), bg="#263D42", fg="white")
-nilai_hasil_label.pack(pady=2)
+nilai_hasil_label = tk.Label(window, text="Pilih Akan Diconvert Ke", font=("Poppins"), bg="#263D42", fg="white")
+nilai_hasil_label.pack()
 
 nilai_hasil_input = tk.StringVar(value="Bilangan Akhir")
 nilai_hasil_dropdown = tk.OptionMenu(window, nilai_hasil_input, "2", "8", "10", "16")
-nilai_hasil_dropdown.pack(padx=10)
+nilai_hasil_dropdown.pack(padx=5)
 
 angka_button = tk.Button(window, text="Convert", command=handle_konversi_basis,  width=15)
 angka_button.pack(pady=10)
 
-hasil = tk.Label(window, height=5)
-hasil.pack(pady=10)
+hasil = tk.Label(window, height=2)
+hasil.pack(pady=2)
+
+
+
+input_label = tk.Label(window, text="String ke Sistem bilangan", font=("Poppins"), bg="#263D42", fg="white")
+input_label.pack(pady=1)
+
+input_box = tk.Entry(window, width=20, )
+input_box.pack()
+
+option_var = tk.StringVar(window)
+option_var.set("Pilih sistem bilangan")
+option_menu = tk.OptionMenu(window, option_var, "Choose a number system", "binary", "hexadecimal", "decimal", "octal")
+option_menu.config(width=30)
+option_menu.pack(pady=5)
+
+convert_button = tk.Button(window, text="Convert", command=convert)
+convert_button.config(width=20)
+convert_button.pack(pady=2)
+
+output_box = tk.Label(window, height=2)
+output_box.pack()
 
 window.mainloop()
 
